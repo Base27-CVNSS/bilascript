@@ -1,0 +1,113 @@
+--- a/index.html
++++ b/index.html
+@@ -183,6 +183,7 @@
+   <a href="#workbench">[F]ile</a>
+   <a href="#language">[L]anguage</a>
+   <a href="#architecture">[A]rchitecture</a>
++  <a href="#roadmap">[R]oadmap</a>
+   <a href="#history">[H]istory</a>
+   <a href="#about">[?] About</a>
+ </nav>
+@@ -200,9 +201,9 @@
+                                    |_|
+ </pre>
+     <p class="hero-copy">
+-      <b>BilaScript</b> là frontend/compiler thử nghiệm hướng CVNSS4.0.
+-      Trang này ưu tiên đúng một việc: <b>đọc, biên dịch và chạy mã BilaScript ngay trong trình duyệt</b>.
+-      Compiler AST-first từ DevKit được nhúng thẳng vào HTML; không cần CDN hay server compiler.
++      <b>BilaScript</b> là ngôn ngữ lập trình thử nghiệm được hiện thực như một <b>frontend/compiler AST-first hướng CVNSS4.0</b>.
++      V4.0.0 phân tích lexer/parser/AST, semantic-evidence và sinh JavaScript + Source Map để chạy trên Browser/Node.
++      Core có thể hoạt động offline; JavaScript vẫn là backend/runtime.
+     </p>
+     <div class="flags">
+       <span class="flag ok" id="compilerFlag">COMPILER: BOOTING</span>
+@@ -326,55 +327,66 @@
+     <div class="window-body">
+       <div class="pipeline">
+         <div class="pipe"><b>01 SOURCE</b><span>*.bila</span></div>
+-        <div class="pipe"><b>02 LEXER</b><span>Unicode tokens</span></div>
+-        <div class="pipe"><b>03 PARSER</b><span>AST</span></div>
+-        <div class="pipe"><b>04 CHECK</b><span>diagnostics</span></div>
+-        <div class="pipe"><b>05 CODEGEN</b><span>JavaScript</span></div>
+-        <div class="pipe"><b>06 MAP</b><span>Source Map v3</span></div>
++        <div class="pipe"><b>02 LEXER</b><span>tokens / IDs</span></div>
++        <div class="pipe"><b>03 PARSER</b><span>Bila AST</span></div>
++        <div class="pipe"><b>04 EVIDENCE</b><span>symbol / type</span></div>
++        <div class="pipe"><b>05 NORMALIZE</b><span>strict lowering</span></div>
++        <div class="pipe"><b>06 CODEGEN</b><span>JS + Source Map</span></div>
+         <div class="pipe"><b>07 RUNTIME</b><span>Browser / Node</span></div>
+       </div>
+-      <p class="arch-line">CVNSS4.0 surface → BilaScript frontend → JavaScript backend → browser / Node.js</p>
++      <p class="arch-line">CVNSS4.0 surface → Lexer/Parser → AST → Evidence → Normalizer → JavaScript + Source Map → Runtime</p>
+     </div>
+   </section>
+ 
+   <section class="info-grid">
+     <section class="window">
+-      <div class="window-title"><span>V4.0.0</span><span>ARCHITECTURE MILESTONE</span></div>
++      <div class="window-title"><span>V4.0.0</span><span>WHY BILASCRIPT</span></div>
+       <div class="window-body">
+         <div class="block">
+-          <h3>01 Compile-time Safety</h3>
+-          <p>V4 được định vị theo hướng đưa rủi ro alias về compile-time và dùng evidence trước semantic lowering.</p>
++          <h3>01 Structure-first</h3>
++          <p>AST giữ nesting và quan hệ cú pháp tốt hơn thay chuỗi/regex mù.</p>
+         </div>
+         <div class="block">
+-          <h3>02 Language Tooling</h3>
+-          <p>Diagnostics, completion, hover, document symbols, LSP và VS Code là hướng tooling của frontend.</p>
++          <h3>02 Evidence-driven Safety</h3>
++          <p>Strict mode chỉ hạ alias khi có bằng chứng symbol/type phù hợp; thiếu evidence thì diagnostic.</p>
+         </div>
+         <div class="block">
+-          <h3>03 Modern Grammar</h3>
+-          <p>Class, module, destructuring, arrow, optional chaining, nullish và structural syntax hiện đại.</p>
++          <h3>03 Zero-cost JS Backend</h3>
++          <p>Mapping 1:1 sinh JavaScript trực tiếp, không cần runtime translator riêng; tận dụng Web/Node/npm.</p>
+         </div>
+         <div class="block">
+-          <h3>04 Conformance Hardening</h3>
+-          <p>Corpus, differential tests, source-map tests và audit giúp giới hạn claim bằng kiểm thử.</p>
++          <h3>04 Offline & Tooling-ready</h3>
++          <p>Core chạy offline; AST, diagnostics và Source Map tạo nền cho IDE/LSP và kiểm thử.</p>
+         </div>
+-        <div class="claim"><b>CLAIM:</b> BilaScript sinh JavaScript; mapping 1:1 không cần runtime translator riêng.</div>
+-        <div class="claim nonclaim"><b>NON-CLAIM:</b> Không tuyên bố nhanh hơn JavaScript hoặc full ECMAScript/Test262.</div>
++        <div class="claim"><b>CÔNG DỤNG:</b> học/nghiên cứu compiler, viết mã BilaScript hướng CVNSS4.0, biên dịch sang JavaScript và thử nghiệm tooling ngôn ngữ.</div>
++        <div class="claim nonclaim"><b>GIỚI HẠN:</b> V4 không tuyên bố full ECMAScript/Test262; Python/C#/WASM/LSP/AI là hướng mở rộng nếu chưa nằm trong snapshot.</div>
+       </div>
+     </section>
+ 
+     <section class="window" id="history">
+       <div class="window-title"><span>HISTORY.LOG</span><span>EVOLUTION</span></div>
+       <div class="window-body timeline">
+-        <div class="ver"><b>v1.x</b><span>CVNSS4.0 vocabulary trên dòng Rhino/Babylscript; native Bila mode.</span></div>
+-        <div class="ver"><b>v2.0</b><span>JavaScript-compatible grammar, profiles và vocabulary normalization.</span></div>
+-        <div class="ver"><b>v3.0</b><span>Bila lexer/parser/AST/semantic; JavaScript thành backend.</span></div>
+-        <div class="ver"><b>v3.5</b><span>Semantic IDs, receiver-safe aliases, Source Map, zero-cost contract.</span></div>
+-        <div class="ver"><b>v4.0.0</b><span>Evidence-driven hardening: safety, tooling, grammar, conformance.</span></div>
+-        <div class="ver current"><b>5 PREVIEW</b><span>Standalone AST-first compiler, CLI, playground và VS Code tooling.</span></div>
++        <div class="ver"><b>v1.x</b><span>Giai đoạn vocabulary CVNSS4.0 trên dòng Rhino/Babylscript; hình thành Bila mode.</span></div>
++        <div class="ver"><b>v2.0</b><span>Grammar tương thích JavaScript, profiles và chuẩn hóa vocabulary.</span></div>
++        <div class="ver"><b>v3.0</b><span>Tách frontend với lexer/parser/AST/semantic; JavaScript trở thành backend.</span></div>
++        <div class="ver"><b>v3.5</b><span>Semantic IDs, receiver-safe aliases, Source Map và zero-cost contract.</span></div>
++        <div class="ver current"><b>v4.0.0</b><span>Evidence-required strict lowering, diagnostics, AST-first hardening và kiến trúc modular.</span></div>
++        <div class="ver"><b>5 PREVIEW</b><span>DevKit/browser workbench thử nghiệm; không đồng nghĩa toàn bộ roadmap sau v4 đã hoàn tất.</span></div>
+       </div>
+     </section>
+   </section>
+ 
++  <section class="window" id="roadmap">
++    <div class="window-title"><span>ROADMAP.AFTER.V4</span><span>PLANNED · NOT V4 FEATURES</span></div>
++    <div class="window-body timeline">
++      <div class="ver"><b>0–3 THÁNG</b><span>Ổn định AST/semantic/tests; làm BilaScript → JavaScript đáng tin cậy hơn.</span></div>
++      <div class="ver"><b>4–6 THÁNG</b><span>Backend abstraction; thử nghiệm Python/C#/JSON-IR theo semantic subset.</span></div>
++      <div class="ver"><b>7–9 THÁNG</b><span>LSP + VS Code/editor tooling: diagnostics, completion, hover, symbols, navigation.</span></div>
++      <div class="ver"><b>10–12 THÁNG</b><span>AI adapter trên AST; AI là lớp hỗ trợ, không phải dependency của compiler core.</span></div>
++      <div class="ver"><b>NĂM 2+</b><span>Rust/WASM/native backend và tích hợp input method/OS sau khi semantics ổn định.</span></div>
++    </div>
++  </section>
++
+   <section class="window">
+     <div class="window-title"><span>README.TXT</span><span>DIRECT BROWSER MODE</span></div>
+     <div class="window-body">
